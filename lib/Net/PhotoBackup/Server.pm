@@ -1,28 +1,39 @@
 package Net::PhotoBackup::Server;
+
 use 5.008001;
 use strict;
 use warnings;
-
-our $VERSION = "0.01";
-
-
-
-1;
-__END__
 
 =encoding utf-8
 
 =head1 NAME
 
-Net::PhotoBackup::Server - It's new $module
+    Net::PhotoBackup::Server - perl5 server for L<https://photobackup.github.io/>
 
 =head1 SYNOPSIS
 
-    use Net::PhotoBackup::Server;
+    # Initial setup of server config.
+    photobackup.pl init
+
+    # Launch server using config.
+    photobackup.pl run
 
 =head1 DESCRIPTION
 
-Net::PhotoBackup::Server is ...
+    Net::PhotoBackup::Server provides a server and startup script for
+    L<https://photobackup.github.io/> It was developed by reading the API docs at
+    L<https://github.com/PhotoBackup/api/blob/master/api.raml> and looking at
+    the sourcecode of the python implementations at
+    L<https://github.com/PhotoBackup/server-bottle> and
+    L<https://github.com/PhotoBackup/server-flask>
+
+=cut
+
+our $VERSION = "0.01";
+
+1;
+
+__END__
 
 =head1 LICENSE
 
