@@ -29,7 +29,77 @@ use warnings;
 
 =cut
 
+use File::HomeDir ();
+use Digest::SHA ();
+
 our $VERSION = "0.01";
+
+=head2 new()
+
+    Constructor.
+
+    Takes no args.
+
+=cut
+
+sub new {
+    my $class = shift;
+
+    return bless {}, $class;
+
+}
+
+=head2 init()
+
+    Create, or recreate the user's config file.
+
+    The user will be prompted for the following information:
+
+    Media root - Directory where the pictures will be stored.
+
+    Server password - The password to use for all HTTP operations.
+
+    Server port - Defaults to 8420.
+
+    The config will be written to ~/.photobackup in ini format.
+
+=cut
+
+sub init {
+    my $self = shift;
+
+    my $config = $self->config;
+
+    print "Media root - Where should the pictures be stored" . ($config->{MediaRoot} ? " [$config->{MediaRoot}]: " : ": ");
+    my $config->{MediaRoot} = <STDIN>;
+    chomp $config->{MediaRoot};
+
+    print "Server password - The password required for HTTP operations: ";
+    my $password = <STDIN>;
+    chomp $password;
+    $config->{Password} = Digest::SHA::sha256_hex $password;
+
+    print "Server port [" . ($config->{Port} || 8420) . "]: ";
+    my $config->{Port} = <STDIN>;
+    chomp $config->{Port};
+
+    $self->config($config);
+
+    print "\nConfig written. Launch PhotoBackup server with 'photobackup.pl run'\n";
+}
+
+=head2 config()
+
+    Read and write server config file.
+
+    Returns undef if config file doesn't exist, or doesn't hold all required
+    data.
+
+=cut
+
+sub config {
+    
+}
 
 1;
 
@@ -37,7 +107,7 @@ __END__
 
 =head1 LICENSE
 
-Copyright (C) Dave Webb.
+Copyright (C) 2015 Dave Webb.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
