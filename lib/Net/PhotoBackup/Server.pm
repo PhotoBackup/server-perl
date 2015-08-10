@@ -31,6 +31,7 @@ use warnings;
 
 use File::HomeDir ();
 use Digest::SHA ();
+use Data::Dumper; $Data::Dumper::Sortkeys = 1;
 
 our $VERSION = "0.01";
 
@@ -65,6 +66,8 @@ sub new {
 
     Server port - Defaults to 8420.
 
+    Some rudimentary checking will be done for valid input.
+
 =cut
 
 sub init {
@@ -83,8 +86,11 @@ sub init {
     my $password;
     do { 
         print "Server password - The password required for HTTP operations: ";
+        system "stty -echo";
         $password = <STDIN>;
         chomp $password;
+        print "\n";
+        system "stty echo";
     }
     while ( ! $password );
     $config->{Password} = Digest::SHA::sha256_hex $password;
@@ -93,7 +99,7 @@ sub init {
         print "Server port [" . ($config->{Port} || 8420) . "]: ";
         my $port = <STDIN>;
         chomp $port;
-        $config->{Port} = $port unless $port eq '';
+        $config->{Port} = $port eq '' ? ($config->{Port} || 8420) : $port =~ m{ \A \d+ \z }xms ? $port : undef;
     }
     while ( ! $config->{Port} );
 
@@ -156,7 +162,7 @@ sub config {
                         $config->{MediaRoot} = $1;
                     }
                     # Password is 64 hex digits only.
-                    elsif( $line =~ m{ \A \s* Password \s* = \s* ([0-9A-F]){64} \s* \z }xms ) {
+                    elsif( $line =~ m{ \A \s* Password \s* = \s* ([0-9A-F]){64} \s* \z }ixms ) {
                         $config->{Password} = $1;
                     }
                     # Port is just digits.
