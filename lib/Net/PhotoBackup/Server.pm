@@ -38,14 +38,18 @@ our $VERSION = "0.01";
 
     Constructor.
 
-    Takes no args.
+    Any args will be added to $self, overriding any defaults.
 
 =cut
 
 sub new {
     my $class = shift;
+    my %args  = @_;
 
-    return bless {}, $class;
+    return bless {
+        config_file => File::Spec->catfile(File::HomeDir->my_home, '.photobackup'),
+        %args,
+    }, $class;
 
 }
 
@@ -61,8 +65,6 @@ sub new {
 
     Server port - Defaults to 8420.
 
-    The config will be written to ~/.photobackup in ini format.
-
 =cut
 
 sub init {
@@ -70,18 +72,30 @@ sub init {
 
     my $config = $self->config;
 
-    print "Media root - Where should the pictures be stored" . ($config->{MediaRoot} ? " [$config->{MediaRoot}]: " : ": ");
-    my $config->{MediaRoot} = <STDIN>;
-    chomp $config->{MediaRoot};
+    do { 
+        print "Media root - Where should the pictures be stored" . ($config->{MediaRoot} ? " [$config->{MediaRoot}]: " : ": ");
+        my $media_root = <STDIN>;
+        chomp $media_root;
+        $config->{MediaRoot} = $media_root unless $media_root eq '';
+    }
+    while ( ! $config->{MediaRoot} );
 
-    print "Server password - The password required for HTTP operations: ";
-    my $password = <STDIN>;
-    chomp $password;
+    my $password;
+    do { 
+        print "Server password - The password required for HTTP operations: ";
+        $password = <STDIN>;
+        chomp $password;
+    }
+    while ( ! $password );
     $config->{Password} = Digest::SHA::sha256_hex $password;
 
-    print "Server port [" . ($config->{Port} || 8420) . "]: ";
-    my $config->{Port} = <STDIN>;
-    chomp $config->{Port};
+    do {
+        print "Server port [" . ($config->{Port} || 8420) . "]: ";
+        my $port = <STDIN>;
+        chomp $port;
+        $config->{Port} = $port unless $port eq '';
+    }
+    while ( ! $config->{Port} );
 
     $self->config($config);
 
@@ -95,10 +109,75 @@ sub init {
     Returns undef if config file doesn't exist, or doesn't hold all required
     data.
 
+    The config will be written to ~/.photobackup in INI format.
+
+    I'm reading and writing this simple INI file manually rather than using a
+    CPAN module so as to reduce the dependencies.
+
 =cut
 
 sub config {
-    
+    my $self   = shift;
+    my $config = shift;
+
+    my @required_keys = qw( MediaRoot Password Port );
+
+    if ($config) {
+
+        foreach my $key (@required_keys) {
+            die "config() config hashref arg missing '$key'. Got " . Dumper($config) unless $config->{$key};
+        }
+
+        open my $FH, '>', $self->{config_file}
+            or die "config() unable to open config file '$self->{config_file}' for writing - $!";
+
+        print $FH "# Settings for Net::PhotoBackup::Server - perldoc Net::PhotoBackup::Server\n";
+        print $FH "[photobackup]\n";
+        foreach my $key (@required_keys) {
+            print $FH "$key=$config->{$key}\n";
+        }
+
+        close $FH
+            or die "config() unable to close config file '$self->{config_file}' after writing - $!";
+    }
+    else {
+        if ( -f "$self->{config_file}" ) {
+            open my $FH, '<', $self->{config_file}
+                or die "config() unable to open config file '$self->{config_file}' for reading - $!";
+            my $in_section;
+            LINE: foreach my $line ( <$FH> ) {
+                chomp $line;
+                if ( $in_section ) {
+                    if ( $line =~ m{ \A \s* \[ }xms ) {
+                        last LINE;
+                    }
+                    # MediaRoot can contain everything but NUL.
+                    if ( $line =~ m{ \A \s* MediaRoot \s* = \s* ([^\0]+) \s* \z }xms ) {
+                        $config->{MediaRoot} = $1;
+                    }
+                    # Password is 64 hex digits only.
+                    elsif( $line =~ m{ \A \s* Password \s* = \s* ([0-9A-F]){64} \s* \z }xms ) {
+                        $config->{Password} = $1;
+                    }
+                    # Port is just digits.
+                    elsif ( $line =~ m{ \A \s* Port \s* = \s* (\d+) \s* \z }xms ) {
+                        $config->{Port} = $1;
+                    } 
+                }
+                elsif ( $line =~ m{ \A \s* \[ photobackup \] \s* \z }xms ) {
+                    $in_section = 1;
+                    next LINE;
+                }
+                else {
+                    next LINE;
+                }
+            }
+            foreach my $key (@required_keys) {
+                die "config() config hashref from file '$self->{config_file}' missing '$key'. Got " . Dumper($config) unless $config->{$key};
+            }
+        }
+    }
+    return $config;
 }
 
 1;
