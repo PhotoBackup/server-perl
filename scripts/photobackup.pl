@@ -5,13 +5,13 @@ use warnings;
 
 =head1 NAME
 
-    photobackup.pl - Setup and run PhotoBucket server.
+    photobackup.pl - Setup and run PhotoBackup server.
 
 =head1 SYNOPSIS
 
-    photobucket.pl init
-    photobucket.pl run
-    photobucket.pl (-h | --help)
+    photobackup.pl init
+    photobackup.pl run
+    photobackup.pl (-h | --help)
     photobackup.pl --version
 
     # Full docs
@@ -25,7 +25,7 @@ use Pod::Usage;
 Getopt::Long::GetOptions(
     'help|?'  => sub {pod2usage},
     'version' => sub {
-        print "Net::PhotoBackup::Server $Net::PhotoBucket::VERSION\n";
+        print "Net::PhotoBackup::Server $Net::PhotoBackup::Server::VERSION\n";
         exit;
     }
 );
