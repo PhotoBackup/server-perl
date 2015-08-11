@@ -35,7 +35,7 @@ my $action = shift;
 pod2usage() unless $action =~ m{ \A (?: init | run ) }xms;
 
 my $server = Net::PhotoBackup::Server->new();
-if ( $action eq 'init' || $server->needs_init ) {
+if ( $action eq 'init' || ! $server->config ) {
     $server->init();
 }
 elsif ( $action eq 'run' ) {
