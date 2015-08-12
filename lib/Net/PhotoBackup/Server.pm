@@ -230,21 +230,31 @@ sub app {
     return sub {
         my $env = shift; # PSGI env
  
-        my $req = Plack::Request->new($env);
+        my $req       = Plack::Request->new($env);
         my $path_info = $req->path_info;
-        my $method = $req->method;
+        my $method    = $req->method;
+        my $post_vars = $req->body_parameters;
 
         if ( $path_info eq '' || $path_info eq '/' ) {
-            # GET / : Return a HTML doc describing PhotoBackup.
-
-            # POST / : Store new image file in MediaRoot. Needs password.
+            if ( $method eq 'GET' ) {
+                # GET / : Redirect to https://photobackup.github.io/
+                return [301, [ Location => 'https://photobackup.github.io/' ], []];
+            }
+            elsif ( $method eq 'POST' ) {
+                # POST / : Store new image file in MediaRoot. Needs password.
+                if ( ! length $post_vars->{password} || $post_vars->{password} ne $config->{Password} ) {
+                    return [ 403, [], [ "403 - wrong password!"]];
+                }
+            }
         }
         elsif ( $path_info eq '/test' ) {
-
+            # POST /test : Check password, then attempt to write test file to MediaRoot.
+            if ( ! length $post_vars->{password} || $post_vars->{password} ne $config->{Password} ) {
+                return [ 403, [], [ "403 - wrong password!"]];
+            }
         }
 
 
-        # POST /test : Check password, then attempt to write test file to MediaRoot.
     };
 }
 
