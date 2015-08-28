@@ -203,7 +203,7 @@ sub run {
     my $config = $self->config;
 
     my @args = (
-        app        => $self->get_app,
+        app        => $self->app,
         daemonize  => 1,
         env        => 'deployment',
         port       => $config->{Port},
@@ -211,7 +211,8 @@ sub run {
         version_cb => \&version,
     );
 
-    my $runner = Plack::Runner->new(@args);
+    my $runner = Plack::Runner->new;
+    $runner->parse_options(@args);
   
     $runner->run; 
      
@@ -253,7 +254,6 @@ sub app {
                 return [ 403, [], [ "403 - wrong password!"]];
             }
         }
-
 
     };
 }
