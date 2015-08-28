@@ -1,7 +1,7 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "perl5 server for L<https://photobackup.github.io/>",
    "author" : [
-      "Dave Webb <github@d5ve.com>"
+      "Dave Webb."
    ],
    "dynamic_config" : 0,
    "generated_by" : "Minilla/v2.5.0, CPAN::Meta::Converter version 2.150005",
@@ -42,6 +42,12 @@
       },
       "runtime" : {
          "requires" : {
+            "Data::Dumper" : "0",
+            "Digest::SHA" : "0",
+            "File::HomeDir" : "0",
+            "Getopt::Long" : "0",
+            "Plack" : "0",
+            "Pod::Usage" : "0",
             "perl" : "5.008001"
          }
       },
@@ -52,6 +58,20 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/d5ve/p5-Net-PhotoBackup-Server/issues"
+      },
+      "homepage" : "https://github.com/d5ve/p5-Net-PhotoBackup-Server",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/d5ve/p5-Net-PhotoBackup-Server.git",
+         "web" : "https://github.com/d5ve/p5-Net-PhotoBackup-Server"
+      }
+   },
    "version" : "0.01",
+   "x_contributors" : [
+      "Dave Webb <github@d5ve.com>"
+   ],
    "x_serialization_backend" : "JSON::PP version 2.27200"
 }
