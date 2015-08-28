@@ -32,8 +32,10 @@ use warnings;
 use Data::Dumper; $Data::Dumper::Sortkeys = 1;
 use Digest::SHA ();
 use File::HomeDir ();
+use File::Spec ();
 use Plack::Request;
 use Plack::Runner;
+use Try::Tiny;
 
 our $VERSION = "0.01";
 sub version { $VERSION }
@@ -261,6 +263,16 @@ sub app {
             if ( ! -d $config->{MediaRoot} ) {
                 return [ 500, [], [ "500 - MediaRoot '$config->{MediaRoot}' does not exist" ]];
             }
+            my $tmp_file = File::Spec->catfile($config->{MediaRoot}, '__photobackup_test_file_' . $$);
+            try {
+                open my $FH, '>', $tmp_file;
+                print $FH 'TEST';
+                unlink $tmp_file;
+                return [ 200, [], [ "200 - All tests passed" ]];
+            }
+            catch {
+                return [ 500, [], [ "500 - Can't write to MediaRoot '$config->{MediaRoot}'" ]];
+            };
         }
 
     };
