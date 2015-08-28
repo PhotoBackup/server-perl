@@ -253,6 +253,9 @@ sub app {
             if ( ! length $post_vars->{password} || Digest::SHA::sha256_hex($post_vars->{password}) ne $config->{Password} ) {
                 return [ 403, [], [ "403 - wrong password!"]];
             }
+            if ( ! -d $config->{MediaRoot} ) {
+                return [ 500, [], [ "500 - MediaRoot '$config->{MediaRoot}' does not exist" ]];
+            }
         }
 
     };
