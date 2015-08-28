@@ -85,6 +85,11 @@ sub init {
         $config->{MediaRoot} = $media_root unless $media_root eq '';
     }
     while ( ! $config->{MediaRoot} );
+    if ( ! -d $config->{MediaRoot} ) {
+        print "MediaRoot '$config->{MediaRoot}' does not exist. Creating...\n";
+        mkdir $config->{MediaRoot}
+            or die "FATAL: Unable to create '$config->{MediaRoot}' - $!";
+    }
 
     my $password;
     do { 
