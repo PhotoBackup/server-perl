@@ -204,7 +204,7 @@ sub run {
 
     my @args = (
         app        => $self->get_app,
-        daemonize  => 1
+        daemonize  => 1,
         env        => 'deployment',
         port       => $config->{Port},
         server     => 'Starman',
