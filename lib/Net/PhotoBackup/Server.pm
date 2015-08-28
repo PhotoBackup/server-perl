@@ -218,8 +218,7 @@ sub run {
         version_cb => \&version,
     );
 
-    my $runner = Plack::Runner->new;
-    $runner->parse_options(@args);
+    my $runner = Plack::Runner->new(@args);
   
     $runner->run; 
      
