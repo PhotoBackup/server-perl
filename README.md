@@ -1,18 +1,67 @@
 # NAME
 
-Net::PhotoBackup::Server - It's new $module
+    Net::PhotoBackup::Server - perl5 server for L<https://photobackup.github.io/>
 
 # SYNOPSIS
 
-    use Net::PhotoBackup::Server;
+    # Initial setup of server config.
+    photobackup.pl init
+
+    # Launch server using config.
+    photobackup.pl run
 
 # DESCRIPTION
 
-Net::PhotoBackup::Server is ...
+    Net::PhotoBackup::Server provides a server and startup script for
+    L<https://photobackup.github.io/> It was developed by reading the API docs at
+    L<https://github.com/PhotoBackup/api/blob/master/api.raml> and looking at
+    the sourcecode of the python implementations at
+    L<https://github.com/PhotoBackup/server-bottle> and
+    L<https://github.com/PhotoBackup/server-flask>
+
+## new()
+
+    Constructor.
+
+    Any args will be added to $self, overriding any defaults.
+
+## init()
+
+    Create, or recreate the user's config file.
+
+    The user will be prompted for the following information:
+
+    Media root - Directory where the pictures will be stored.
+
+    Server password - The password to use for all HTTP operations.
+
+    Server port - Defaults to 8420.
+
+    Some rudimentary checking will be done for valid input.
+
+## config()
+
+    Read and write server config file.
+
+    Returns undef if config file doesn't exist, or doesn't hold all required
+    data.
+
+    The config will be written to ~/.photobackup in INI format.
+
+    I'm reading and writing this simple INI file manually rather than using a
+    CPAN module so as to reduce the dependencies.
+
+## run()
+
+Launch the PhotoBackup web service using config from the conf file.
+
+## app()
+
+Return the PSGI application subref.
 
 # LICENSE
 
-Copyright (C) Dave Webb.
+Copyright (C) 2015 Dave Webb.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
