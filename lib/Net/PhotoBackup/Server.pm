@@ -210,17 +210,19 @@ sub run {
     my $config = $self->config;
 
     my @args = (
-        app        => $self->app,
+        #app        => $self->app,
         daemonize  => 1,
         env        => 'deployment',
-        port       => $config->{Port},
+        #listen     => '127.0.0.1:' . $config->{Port},
+        '--port'   => $config->{Port},
         server     => 'Starman',
         version_cb => \&version,
     );
 
     my $runner = Plack::Runner->new(@args);
+    $runner->parse_options(@args);
   
-    $runner->run; 
+    $runner->run($self->app); 
      
 }
 
