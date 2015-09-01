@@ -209,11 +209,15 @@ sub run {
 
     my $config = $self->config;
 
-    my $runner = Plack::Runner->new( server => 'Starman', version_cb => \&version );
+    my $runner = Plack::Runner->new(
+        daemonize  => 1,
+        env        => 'deployment',
+        server     => 'Starman',
+        version_cb => \&version
+    );
     $runner->parse_options(
-        '--daemonize' => 1,
-        '--env'       => 'deployment',
         '--port'      => $config->{Port},
+        '--workers'   => 3,
     );
     $runner->run( $self->app );
      
