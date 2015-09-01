@@ -54,6 +54,7 @@ sub new {
 
     return bless {
         config_file => File::Spec->catfile(File::HomeDir->my_home, '.photobackup'),
+        pid         => File::Spec->catfile(File::HomeDir->my_home, '.photobackup.pid'),
         %args,
     }, $class;
 
@@ -218,9 +219,29 @@ sub run {
     $runner->parse_options(
         '--port'      => $config->{Port},
         '--workers'   => 3,
+        '--pid'       => $self->{pid},
     );
     $runner->run( $self->app );
      
+}
+
+=head2 stop()
+
+Kill any running PhotoBackup web service.
+
+=cut
+
+sub stop {
+    my $self = shift;
+
+    return unless -f $self->{pid};
+
+    my $pid = do { local( @ARGV, $/ ) = $self->{pid} ; <> };
+    chomp $pid;
+
+    kill 'TERM', $pid if $pid;
+
+    unlink $self->{pid};
 }
 
 =head2 app()
