@@ -45,9 +45,12 @@
             "Data::Dumper" : "0",
             "Digest::SHA" : "0",
             "File::HomeDir" : "0",
+            "File::Spec" : "0",
             "Getopt::Long" : "0",
             "Plack" : "0",
             "Pod::Usage" : "0",
+            "Starman" : "0",
+            "Try::Tiny" : "0",
             "perl" : "5.008001"
          }
       },
@@ -71,7 +74,8 @@
    },
    "version" : "0.01",
    "x_contributors" : [
+      "Dave Webb <wfh@dcw.co.nz>",
       "Dave Webb <github@d5ve.com>"
    ],
-   "x_serialization_backend" : "JSON::PP version 2.27200"
+   "x_serialization_backend" : "JSON::PP version 2.27203"
 }

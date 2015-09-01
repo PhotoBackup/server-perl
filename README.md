@@ -55,6 +55,10 @@
 
 Launch the PhotoBackup web service using config from the conf file.
 
+## stop()
+
+Kill any running PhotoBackup web service.
+
 ## app()
 
 Return the PSGI application subref.
