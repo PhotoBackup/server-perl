@@ -11,16 +11,19 @@ use warnings;
 
     photobackup.pl init
     photobackup.pl run
+    photobackup.pl stop
     photobackup.pl (-h | --help)
     photobackup.pl --version
 
     # Full docs
     perldoc Net::PhotoBackup::Server 
+
 =cut
 
 use Getopt::Long;
 use Net::PhotoBackup::Server;
 use Pod::Usage;
+use File::Spec ();
 
 Getopt::Long::GetOptions(
     'help|?'  => sub {pod2usage},
@@ -32,14 +35,18 @@ Getopt::Long::GetOptions(
 
 pod2usage() unless @ARGV == 1;
 my $action = shift;
-pod2usage() unless $action =~ m{ \A (?: init | run ) }xms;
+pod2usage() unless $action =~ m{ \A (?: init | run | stop ) }xms;
 
 my $server = Net::PhotoBackup::Server->new();
 if ( $action eq 'init' || ! $server->config ) {
     $server->init();
 }
 elsif ( $action eq 'run' ) {
+    $server->stop();
     $server->run();
+}
+elsif ( $action eq 'stop' ) {
+    $server->stop();
 }
 exit;
 
