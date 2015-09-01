@@ -31,6 +31,7 @@ use warnings;
 
 use Data::Dumper; $Data::Dumper::Sortkeys = 1;
 use Digest::SHA ();
+use File::Copy ();
 use File::HomeDir ();
 use File::Spec ();
 use Plack::Request;
@@ -272,14 +273,19 @@ sub app {
                 if ( ! length $post_vars->{password} || Digest::SHA::sha256_hex($post_vars->{password}) ne $config->{Password} ) {
                     return [ 403, [], [ "403 - wrong password!" ] ];
                 }
-                if ( my $upload = $req->uploads->{upfile} ) {
-                
-                }
-                else {
+                my $upload = $req->uploads->{upfile};
+                if ( ! $upload || ! -f $upload->path ) {      
                     return [ 401, [], [ "401 - no file in the request!" ] ];
                 }
+                my $filesize = $req->body_parameters->{filesize};
+                if ( ! $filesize ) {
+                    return [ 400, [], [ "400 - missing file size in the request!" ] ];
+                }
+                my $store_path = File::Spec->catfile($config->{MediaRoot}, $upload->basename);
+                File::Copy::move $upload->path, $store_path; 
 
-                print Dumper($req->uploads);
+                return [ 200, [], [ "200 - file stored" ] ];
+
             }
         }
         elsif ( $path_info eq '/test' ) {
