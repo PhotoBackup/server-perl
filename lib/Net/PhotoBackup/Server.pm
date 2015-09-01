@@ -8,7 +8,7 @@ use warnings;
 
 =head1 NAME
 
-    Net::PhotoBackup::Server - perl5 server for L<https://photobackup.github.io/>
+    Net::PhotoBackup::Server - perl5 server for https://photobackup.github.io
 
 =head1 SYNOPSIS
 
@@ -20,12 +20,12 @@ use warnings;
 
 =head1 DESCRIPTION
 
-    Net::PhotoBackup::Server provides a server and startup script for
-    L<https://photobackup.github.io/> It was developed by reading the API docs at
-    L<https://github.com/PhotoBackup/api/blob/master/api.raml> and looking at
-    the sourcecode of the python implementations at
-    L<https://github.com/PhotoBackup/server-bottle> and
-    L<https://github.com/PhotoBackup/server-flask>
+Net::PhotoBackup::Server provides a server and startup script for
+L<PhotoBackup|https://photobackup.github.io/> Android app. It was developed by
+reading the L<API docs|https://github.com/PhotoBackup/api/blob/master/api.raml>
+and looking at the sourcecode of the
+L<bottle|https://github.com/PhotoBackup/server-bottle> and
+L<flask|https://github.com/PhotoBackup/server-flask> python implementations.
 
 =cut
 

@@ -1,5 +1,5 @@
 {
-   "abstract" : "perl5 server for L<https://photobackup.github.io/>",
+   "abstract" : "perl5 server for https://photobackup.github.io",
    "author" : [
       "Dave Webb."
    ],
