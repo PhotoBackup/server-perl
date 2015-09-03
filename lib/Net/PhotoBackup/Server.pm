@@ -38,7 +38,7 @@ use Plack::Request;
 use Plack::Runner;
 use Try::Tiny;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 sub version { $VERSION }
 
 =head2 new()

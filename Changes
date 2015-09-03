@@ -2,6 +2,10 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
+0.02 2015-09-03T10:31:58Z
+
+    - No code changes, just poking about to get minil uploading to CPAN.
+
 0.01 2015-09-03T10:12:45Z
 
     - Basic working version with minimal checking.
