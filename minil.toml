@@ -1,4 +1,5 @@
 name = "Net-PhotoBackup-Server"
 # badges = ["travis"]
 module_maker="ModuleBuildTiny"
+authors_from="lib/Net/PhotoBackup/Server.pm"
 
