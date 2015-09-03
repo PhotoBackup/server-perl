@@ -57,6 +57,7 @@
       },
       "test" : {
          "requires" : {
+            "HTTP::Tiny" : "0",
             "Test::More" : "0.98"
          }
       }
@@ -75,8 +76,8 @@
    },
    "version" : "0.01",
    "x_contributors" : [
-      "Dave Webb <wfh@dcw.co.nz>",
-      "Dave Webb <github@d5ve.com>"
+      "Dave Webb <github@d5ve.com>",
+      "Dave Webb <wfh@dcw.co.nz>"
    ],
    "x_serialization_backend" : "JSON::PP version 2.27203"
 }
