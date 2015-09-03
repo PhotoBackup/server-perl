@@ -56,6 +56,9 @@ sub new {
     return bless {
         config_file => File::Spec->catfile(File::HomeDir->my_home, '.photobackup'),
         pid         => File::Spec->catfile(File::HomeDir->my_home, '.photobackup.pid'),
+        env         => 'deployment',
+        daemonize   => 1,
+        workers     => 3,
         %args,
     }, $class;
 
@@ -212,14 +215,14 @@ sub run {
     my $config = $self->config;
 
     my $runner = Plack::Runner->new(
-        daemonize  => 1,
-        env        => 'deployment',
+        daemonize  => $self->{daemonize},
+        env        => $self->{env},
         server     => 'Starman',
         version_cb => \&version
     );
     $runner->parse_options(
         '--port'      => $config->{Port},
-        '--workers'   => 3,
+        '--workers'   => $self->{workers},
         '--pid'       => $self->{pid},
     );
     $runner->run( $self->app );
