@@ -2,6 +2,10 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
+0.03 2015-09-03T11:21:58Z
+
+    - Renamed scripts/ dir to script/ to get Module::Build::Tiny recognising it.
+
 0.02 2015-09-03T10:31:58Z
 
     - No code changes, just poking about to get minil uploading to CPAN.

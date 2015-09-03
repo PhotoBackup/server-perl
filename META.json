@@ -74,10 +74,10 @@
          "web" : "https://github.com/d5ve/p5-Net-PhotoBackup-Server"
       }
    },
-   "version" : "0.02",
+   "version" : "0.03",
    "x_contributors" : [
-      "Dave Webb <github@d5ve.com>",
-      "Dave Webb <wfh@dcw.co.nz>"
+      "Dave Webb <wfh@dcw.co.nz>",
+      "Dave Webb <github@d5ve.com>"
    ],
    "x_serialization_backend" : "JSON::PP version 2.27203"
 }
