@@ -2,5 +2,6 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
-    - original version
+    - Basic working version with minimal checking.
+    - TODO: Support for init.d scripts to keep it running.
 
