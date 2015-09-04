@@ -25,7 +25,7 @@ print $fh qq{
 # Settings for Net::PhotoBackup::Server - perldoc Net::PhotoBackup::Server
 [photobackup]
 MediaRoot=$media_root
-Password=5a9cea259640cac7ec4428c3d584606845c2cb0d6c353252c6487b2cc0be6653
+Password=ae1413078f26b37974431e7c1d973da2d1fab1d5839707823ba800bafdf746dfaeb9bf29b4aba3a3c3108e8d712aceb7048b4a007b521bf9aff127621374a5b3
 Port=58420
 };
 close $fh;

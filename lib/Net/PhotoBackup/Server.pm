@@ -108,7 +108,7 @@ sub init {
         system "stty echo";
     }
     while ( ! $password );
-    $config->{Password} = Digest::SHA::sha256_hex $password;
+    $config->{Password} = Digest::SHA::sha512_hex $password;
 
     do {
         print "Server port [" . ($config->{Port} || 8420) . "]: ";
@@ -176,8 +176,8 @@ sub config {
                     if ( $line =~ m{ \A \s* MediaRoot \s* = \s* ([^\0]+) \s* \z }xms ) {
                         $config->{MediaRoot} = $1;
                     }
-                    # Password is 64 hex digits only.
-                    elsif( $line =~ m{ \A \s* Password \s* = \s* ([0-9A-F]{64}) \s* \z }ixms ) {
+                    # Password is 128 hex digits only.
+                    elsif( $line =~ m{ \A \s* Password \s* = \s* ([0-9A-F]{128}) \s* \z }ixms ) {
                         $config->{Password} = $1;
                     }
                     # Port is just digits.
@@ -273,7 +273,7 @@ sub app {
             }
             elsif ( $method eq 'POST' ) {
                 # POST / : Store new image file in MediaRoot. Needs password.
-                if ( ! length $post_vars->{password} || Digest::SHA::sha256_hex($post_vars->{password}) ne $config->{Password} ) {
+                if ( ! length $post_vars->{password} || Digest::SHA::sha512_hex($post_vars->{password}) ne $config->{Password} ) {
                     return [ 403, [], [ "403 - wrong password!" ] ];
                 }
                 my $upload = $req->uploads->{upfile};
@@ -293,7 +293,7 @@ sub app {
         }
         elsif ( $path_info eq '/test' ) {
             # POST /test : Check password, then attempt to write test file to MediaRoot.
-            if ( ! length $post_vars->{password} || Digest::SHA::sha256_hex($post_vars->{password}) ne $config->{Password} ) {
+            if ( ! length $post_vars->{password} || Digest::SHA::sha512_hex($post_vars->{password}) ne $config->{Password} ) {
                 return [ 403, [], [ "403 - wrong password!"]];
             }
             if ( ! -d $config->{MediaRoot} ) {
