@@ -2,6 +2,8 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
+5 2015-09-04T23:58:02Z
+
     - Server now expects POST-ed password to be encoded.
 
 0.04 2015-09-04T23:48:09Z
