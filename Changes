@@ -2,6 +2,10 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
+0.04 2015-09-04T23:48:09Z
+
+    - Replaced SHA256 with SHA512 as per PhotoBucket spec.
+
 0.03 2015-09-03T11:21:58Z
 
     - Renamed scripts/ dir to script/ to get Module::Build::Tiny recognising it.
