@@ -51,7 +51,7 @@ is( $response->{status}, 403, "POST /test without password fails" );
 $response = $response = HTTP::Tiny->new->post_form( 'http://127.0.0.1:58420/test', { password => 'WRONG' } );
 is( $response->{status}, 403, "POST /test with incorrect password fails" );
 
-$response = $response = HTTP::Tiny->new->post_form( 'http://127.0.0.1:58420/test', { password => 'barry' } );
+$response = $response = HTTP::Tiny->new->post_form( 'http://127.0.0.1:58420/test', { password => 'ae1413078f26b37974431e7c1d973da2d1fab1d5839707823ba800bafdf746dfaeb9bf29b4aba3a3c3108e8d712aceb7048b4a007b521bf9aff127621374a5b3' } );
 ok( $response->{success}, "POST /test with correct password succeeds" );
 
 $server->stop;

@@ -273,7 +273,7 @@ sub app {
             }
             elsif ( $method eq 'POST' ) {
                 # POST / : Store new image file in MediaRoot. Needs password.
-                if ( ! length $post_vars->{password} || Digest::SHA::sha512_hex($post_vars->{password}) ne $config->{Password} ) {
+                if ( ! length $post_vars->{password} || $post_vars->{password} ne $config->{Password} ) {
                     return [ 403, [], [ "403 - wrong password!" ] ];
                 }
                 my $upload = $req->uploads->{upfile};
@@ -293,7 +293,7 @@ sub app {
         }
         elsif ( $path_info eq '/test' ) {
             # POST /test : Check password, then attempt to write test file to MediaRoot.
-            if ( ! length $post_vars->{password} || Digest::SHA::sha512_hex($post_vars->{password}) ne $config->{Password} ) {
+            if ( ! length $post_vars->{password} || $post_vars->{password} ne $config->{Password} ) {
                 return [ 403, [], [ "403 - wrong password!"]];
             }
             if ( ! -d $config->{MediaRoot} ) {
