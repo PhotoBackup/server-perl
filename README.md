@@ -1,8 +1,14 @@
-# NAME
+# PhotoBackup Perl server
 
-    Net::PhotoBackup::Server - perl5 server for https://photobackup.github.io
+The Perl implementation of PhotoBackup server. It provides a server and startup script
+for [PhotoBackup](https://photobackup.github.io/) Android app. It was developed by
+reading the [API docs](https://github.com/PhotoBackup/api/blob/master/api.raml)
+and looking at the sourcecode of the
+[bottle](https://github.com/PhotoBackup/server-bottle) and
+[flask](https://github.com/PhotoBackup/server-flask) python implementations.
 
-# SYNOPSIS
+
+## Usage
 
     # Initial setup of server config.
     photobackup.pl init
@@ -10,22 +16,15 @@
     # Launch server using config.
     photobackup.pl run
 
-# DESCRIPTION
+## Description
 
-Net::PhotoBackup::Server provides a server and startup script for
-[PhotoBackup](https://photobackup.github.io/) Android app. It was developed by
-reading the [API docs](https://github.com/PhotoBackup/api/blob/master/api.raml)
-and looking at the sourcecode of the
-[bottle](https://github.com/PhotoBackup/server-bottle) and
-[flask](https://github.com/PhotoBackup/server-flask) python implementations.
-
-## new()
+### new()
 
     Constructor.
 
     Any args will be added to $self, overriding any defaults.
 
-## init()
+### init()
 
     Create, or recreate the user's config file.
 
@@ -39,7 +38,7 @@ and looking at the sourcecode of the
 
     Some rudimentary checking will be done for valid input.
 
-## config()
+### config()
 
     Read and write server config file.
 
@@ -51,25 +50,25 @@ and looking at the sourcecode of the
     I'm reading and writing this simple INI file manually rather than using a
     CPAN module so as to reduce the dependencies.
 
-## run()
+### run()
 
 Launch the PhotoBackup web service using config from the conf file.
 
-## stop()
+### stop()
 
 Kill any running PhotoBackup web service.
 
-## app()
+### app()
 
 Return the PSGI application subref.
 
-# LICENSE
+## License
 
 Copyright (C) 2015 Dave Webb.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
-# AUTHOR
+## Author
 
 Dave Webb <github@d5ve.com>
