@@ -16,3 +16,7 @@ on 'test' => sub {
     requires 'HTTP::Tiny';
 };
 
+on 'build' => sub {
+    requires 'Pod::Markdown::Passthrough';
+};
+
