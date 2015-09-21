@@ -2,6 +2,8 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
+0.07 2015-09-21T20:34:32Z
+
     - Switch github repo from https://github.com/d5ve/p5-Net-PhotoBackup-Server
       to https://github.com/PhotoBackup/server-perl as the module is now part
       of that organisation.

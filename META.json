@@ -79,11 +79,11 @@
          "web" : "https://github.com/PhotoBackup/server-perl"
       }
    },
-   "version" : "0.06",
+   "version" : "0.07",
    "x_contributors" : [
       "Dave Webb <wfh@dcw.co.nz>",
-      "Dave Webb <github@d5ve.com>",
-      "Stéphane Péchard <stephanepechard@gmail.com>"
+      "Stéphane Péchard <stephanepechard@gmail.com>",
+      "Dave Webb <github@d5ve.com>"
    ],
    "x_serialization_backend" : "JSON::PP version 2.27203"
 }
