@@ -2,6 +2,13 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
+    - Switch github repo from https://github.com/d5ve/p5-Net-PhotoBackup-Server
+      to https://github.com/PhotoBackup/server-perl as the module is now part
+      of that organisation.
+
+    - Use Pod::Markdown::Passthrough to allow us to edit README.md manually
+      independently of the module POD.
+
 0.06 2015-09-05T00:40:49Z
 
     - Fix version number.
