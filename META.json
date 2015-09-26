@@ -80,7 +80,7 @@
          "web" : "https://github.com/PhotoBackup/server-perl"
       }
    },
-   "version" : "0.07",
+   "version" : "0.08",
    "x_contributors" : [
       "Dave Webb <wfh@dcw.co.nz>",
       "Stéphane Péchard <stephanepechard@gmail.com>",
