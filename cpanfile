@@ -12,6 +12,7 @@ requires 'Starman';
 requires 'Try::Tiny';
 
 on 'test' => sub {
+    requires 'autodie';
     requires 'Test::More', '0.98';
     requires 'HTTP::Tiny';
 };
