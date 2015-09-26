@@ -63,7 +63,8 @@
       "test" : {
          "requires" : {
             "HTTP::Tiny" : "0",
-            "Test::More" : "0.98"
+            "Test::More" : "0.98",
+            "autodie" : "0"
          }
       }
    },
