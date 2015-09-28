@@ -2,6 +2,8 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
+0.09 2015-09-28T04:05:38Z
+
     - Minor. Blind attempt to fix new testing failures reported by cpantesters.org for Darwin.
       See http://www.cpantesters.org/cpan/report/4971e9a0-64d3-11e5-87d5-7a83b4e1cf47 for an example.
       - Use 0.0.0.0, rather than 127.0.0.1 for testing HTTP.
