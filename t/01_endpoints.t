@@ -33,7 +33,7 @@ close $fh;
 my $server = Net::PhotoBackup::Server->new( config_file => $config_file, pid => $pid, env => 'deployment', daemonize => 0 );
 if ( my $child = fork ) {
     # Parent - sleep to allow child to start server.
-    sleep 1;
+    sleep 2;
 }
 else {
     # Child - launch server in foreground.
@@ -41,18 +41,22 @@ else {
     exit;
 }
 
-my $response = HTTP::Tiny->new( max_redirect => 0 )->get('http://127.0.0.1:58420/');
-is( $response->{status}, 301, "Server is responding to GET /" );
+my $response = HTTP::Tiny->new( max_redirect => 0 )->get('http://0.0.0.0:58420/');
+is( $response->{status}, 301, "Server is responding to GET /" ) 
+    or diag( "Diagnostics for 'Server is responding to GET /'" => Dumper $response);
 is( $response->{headers}->{location}, 'https://photobackup.github.io/', "GET / redirects to https://photobackup.github.io/" );
 
-$response = $response = HTTP::Tiny->new->post_form( 'http://127.0.0.1:58420/test', {} );
-is( $response->{status}, 403, "POST /test without password fails" );
+$response = $response = HTTP::Tiny->new->post_form( 'http://0.0.0.0:58420/test', {} );
+is( $response->{status}, 403, "POST /test without password fails" )
+    or diag( "Diagnostics for 'POST /test without password fails'" => Dumper $response);
 
-$response = $response = HTTP::Tiny->new->post_form( 'http://127.0.0.1:58420/test', { password => 'WRONG' } );
-is( $response->{status}, 403, "POST /test with incorrect password fails" );
+$response = $response = HTTP::Tiny->new->post_form( 'http://0.0.0.0:58420/test', { password => 'WRONG' } );
+is( $response->{status}, 403, "POST /test with incorrect password fails" )
+    or diag( "Diagnostics for 'POST /test with incorrect password fails'" => Dumper $response);
 
-$response = $response = HTTP::Tiny->new->post_form( 'http://127.0.0.1:58420/test', { password => 'ae1413078f26b37974431e7c1d973da2d1fab1d5839707823ba800bafdf746dfaeb9bf29b4aba3a3c3108e8d712aceb7048b4a007b521bf9aff127621374a5b3' } );
-ok( $response->{success}, "POST /test with correct password succeeds" );
+$response = $response = HTTP::Tiny->new->post_form( 'http://0.0.0.0:58420/test', { password => 'ae1413078f26b37974431e7c1d973da2d1fab1d5839707823ba800bafdf746dfaeb9bf29b4aba3a3c3108e8d712aceb7048b4a007b521bf9aff127621374a5b3' } );
+ok( $response->{success}, "POST /test with correct password succeeds" )
+    or diag( "Diagnostics for 'POST /test with correct password succeeds'" => Dumper $response);
 
 $server->stop;
 

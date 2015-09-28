@@ -2,6 +2,12 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
+    - Minor. Blind attempt to fix new testing failures reported by cpantesters.org for Darwin.
+      See http://www.cpantesters.org/cpan/report/4971e9a0-64d3-11e5-87d5-7a83b4e1cf47 for an example.
+      - Use 0.0.0.0, rather than 127.0.0.1 for testing HTTP.
+      - Wait for 2 seconds for server to start.
+      - Dump diagnostics for failing tests.
+ 
 0.08 2015-09-26T08:05:46Z
 
     - Minor. Add autodie as a testing dependency. As reported by CPAN testers.
