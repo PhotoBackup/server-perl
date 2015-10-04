@@ -62,7 +62,8 @@
       },
       "test" : {
          "requires" : {
-            "HTTP::Tiny" : "0",
+            "HTTP::Request::Common" : "13",
+            "Plack::Test" : "12",
             "Test::More" : "0.98",
             "autodie" : "0"
          }
@@ -80,7 +81,7 @@
          "web" : "https://github.com/PhotoBackup/server-perl"
       }
    },
-   "version" : "0.09",
+   "version" : "0.10",
    "x_contributors" : [
       "Dave Webb <wfh@dcw.co.nz>",
       "Stéphane Péchard <stephanepechard@gmail.com>",

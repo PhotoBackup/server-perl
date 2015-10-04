@@ -2,6 +2,8 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
+0.10 2015-10-04T20:45:00Z
+
     - Minor. Convert to use Plack::Test for testing rather than running up a
       daemon and making real HTTP requests. There were multiple failures on
       http://www.cpantesters.org/author/D/DAVEWEBB.html#Net-PhotoBackup-Server for
