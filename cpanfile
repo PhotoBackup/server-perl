@@ -12,9 +12,10 @@ requires 'Starman';
 requires 'Try::Tiny';
 
 on 'test' => sub {
-    requires 'autodie';
+    requires 'HTTP::Request::Common',
+    requires 'Plack::Test',
     requires 'Test::More', '0.98';
-    requires 'HTTP::Tiny';
+    requires 'autodie';
 };
 
 on 'build' => sub {

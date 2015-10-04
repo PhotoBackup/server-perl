@@ -1,18 +1,13 @@
 use strict;
 use Test::More 0.98;
+use Plack::Test;
 use autodie;
 
 use Data::Dumper;
 use File::Spec ();
 use File::Temp ();
-use HTTP::Tiny;
+use HTTP::Request::Common;
 use Net::PhotoBackup::Server;
-
-# TODO: See if all the tests can be run without actually needing a daemon running.
-
-# Always cleanup after test, even for Ctrl-c/kill etc.
-my $CLEANEDUP;
-$SIG{TERM} = $SIG{INT} = $SIG{QUIT} = $SIG{HUP} = sub { cleanup() };
 
 my $test_dir    = File::Temp::tempdir( CLEANUP => 1 );
 my $config_file = File::Spec->catfile( $test_dir, '.photobackup' );
@@ -31,43 +26,27 @@ Port=58420
 close $fh;
 
 my $server = Net::PhotoBackup::Server->new( config_file => $config_file, pid => $pid, env => 'deployment', daemonize => 0 );
-if ( my $child = fork ) {
-    # Parent - sleep to allow child to start server.
-    sleep 2;
-}
-else {
-    # Child - launch server in foreground.
-    $server->run;
-    exit;
-}
+my $app = $server->app;
+my $handle = Plack::Test->create($app);
 
-my $response = HTTP::Tiny->new( max_redirect => 0 )->get('http://0.0.0.0:58420/');
-is( $response->{status}, 301, "Server is responding to GET /" ) 
+my $response = $handle->request(GET '/');
+is( $response->code, 301, "Server is responding to GET /" ) 
     or diag( "Diagnostics for 'Server is responding to GET /'" => Dumper $response);
-is( $response->{headers}->{location}, 'https://photobackup.github.io/', "GET / redirects to https://photobackup.github.io/" );
+is( $response->header('location'), 'https://photobackup.github.io/', "GET / redirects to https://photobackup.github.io/" );
 
-$response = $response = HTTP::Tiny->new->post_form( 'http://0.0.0.0:58420/test', {} );
-is( $response->{status}, 403, "POST /test without password fails" )
+$response = $handle->request( POST '/test', {} );
+is( $response->code, 403, "POST /test without password fails" )
     or diag( "Diagnostics for 'POST /test without password fails'" => Dumper $response);
 
-$response = $response = HTTP::Tiny->new->post_form( 'http://0.0.0.0:58420/test', { password => 'WRONG' } );
-is( $response->{status}, 403, "POST /test with incorrect password fails" )
+$response = $handle->request( POST '/test', { password => 'WRONG' } );
+is( $response->code, 403, "POST /test with incorrect password fails" )
     or diag( "Diagnostics for 'POST /test with incorrect password fails'" => Dumper $response);
 
-$response = $response = HTTP::Tiny->new->post_form( 'http://0.0.0.0:58420/test', { password => 'ae1413078f26b37974431e7c1d973da2d1fab1d5839707823ba800bafdf746dfaeb9bf29b4aba3a3c3108e8d712aceb7048b4a007b521bf9aff127621374a5b3' } );
-ok( $response->{success}, "POST /test with correct password succeeds" )
+$response = $handle->request( POST '/test', { password => 'ae1413078f26b37974431e7c1d973da2d1fab1d5839707823ba800bafdf746dfaeb9bf29b4aba3a3c3108e8d712aceb7048b4a007b521bf9aff127621374a5b3' } );
+ok( $response->is_success, "POST /test with correct password succeeds" )
     or diag( "Diagnostics for 'POST /test with correct password succeeds'" => Dumper $response);
 
-$server->stop;
 
 done_testing;
 
 exit;
-
-END { cleanup() unless $CLEANEDUP; }
-
-sub cleanup {
-    $CLEANEDUP++;
-
-    $server->stop;
-}
