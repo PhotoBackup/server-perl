@@ -2,6 +2,9 @@ Revision history for Perl extension Net-PhotoBackup-Server
 
 {{$NEXT}}
 
+    - Fix cpanfile's missing semicolons - thanks https://github.com/syohex ! 
+      https://github.com/PhotoBackup/server-perl/pull/1
+
 0.10 2015-10-04T20:45:00Z
 
     - Minor. Convert to use Plack::Test for testing rather than running up a
