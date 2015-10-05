@@ -62,8 +62,8 @@
       },
       "test" : {
          "requires" : {
-            "HTTP::Request::Common" : "13",
-            "Plack::Test" : "12",
+            "HTTP::Request::Common" : "0",
+            "Plack::Test" : "0",
             "Test::More" : "0.98",
             "autodie" : "0"
          }
@@ -85,7 +85,8 @@
    "x_contributors" : [
       "Dave Webb <wfh@dcw.co.nz>",
       "Stéphane Péchard <stephanepechard@gmail.com>",
-      "Dave Webb <github@d5ve.com>"
+      "Dave Webb <github@d5ve.com>",
+      "Syohei YOSHIDA <syohex@gmail.com>"
    ],
-   "x_serialization_backend" : "JSON::PP version 2.27203"
+   "x_serialization_backend" : "JSON::PP version 2.27300"
 }
