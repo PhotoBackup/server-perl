@@ -12,8 +12,8 @@ requires 'Starman';
 requires 'Try::Tiny';
 
 on 'test' => sub {
-    requires 'HTTP::Request::Common',
-    requires 'Plack::Test',
+    requires 'HTTP::Request::Common';
+    requires 'Plack::Test';
     requires 'Test::More', '0.98';
     requires 'autodie';
 };
